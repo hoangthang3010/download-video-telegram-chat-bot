@@ -1,6 +1,11 @@
 const TelegramBot = require("node-telegram-bot-api");
 const token = "7175534794:AAFk3QAafEENbT758I183IziKz6WNMTV3F4";
+const express = require("express");
 
+const app = express();
+app.get("/", (req, res) => {
+  res.send('Download video bot telegram by ThangHM');
+});
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
 const downloading = (msg) => {
@@ -67,6 +72,12 @@ bot.on("message", async (msg) => {
     }`;
     bot.sendMessage(chatId, markdownText, { parse_mode: "Markdown" });
   } else bot.deleteMessage(chatId, `Video gốc 👇👇\n ${msg.text}`);
+});
+
+const PORT = 3002;
+
+const server = app.listen(PORT, () => {
+  console.log(`Server started on port localhost:${PORT}`);
 });
 
 // Matches "/echo [whatever]"
