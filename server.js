@@ -1,7 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 const token = "7174716738:AAHjVSRlzJLg6yIQcQcK09gYoxfk1CZm27Q";
 const express = require("express");
-const fs = require("fs");
 
 const app = express();
 app.get("/", (req, res) => {
@@ -10,11 +9,11 @@ app.get("/", (req, res) => {
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
 
-let idMsgIsDownload
+let idMsgIsDownload;
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   bot.sendMessage(msg.chat.id, "Đang tải...").then((sentMessage) => {
-    idMsgIsDownload = sentMessage.message_id
+    idMsgIsDownload = sentMessage.message_id;
   });
 };
 
@@ -71,13 +70,25 @@ bot.on("message", async (msg) => {
     return bot.sendMessage(chatId, "URL " + msg.text + " không được hỗ trợ ");
   }
   if (data.url) {
-    bot.deleteMessage(msg.chat.id, idMsgIsDownload);
-    bot.sendPhoto(chatId, data.thumbnail, {
-      caption: 'Origin URL:\n' + msg.text,
-      reply_markup: {
-        inline_keyboard: [[{ text: "Download URL", url: data.url }]],
-      },
-    });
+    idMsgIsDownload && bot.deleteMessage(msg.chat.id, idMsgIsDownload);
+    bot
+      .sendVideo(chatId, data.url, {
+        caption: "Origin URL:\n" + msg.text,
+        reply_markup: {
+          inline_keyboard: [[{ text: "Download URL", url: data.url }]],
+        },
+      })
+      .then((sent) => {
+        console.log("Video sent:", sent);
+      })
+      .catch((error) => {
+        bot.sendPhoto(chatId, data.thumbnail, {
+          caption: "Origin URL:\n" + msg.text,
+          reply_markup: {
+            inline_keyboard: [[{ text: "Download URL", url: data.url }]],
+          },
+        });
+      });
     // const opts = {
     //   reply_markup: {
     //     inline_keyboard: [
