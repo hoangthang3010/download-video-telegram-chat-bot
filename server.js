@@ -2,9 +2,6 @@ const axios = require('axios');
 const TelegramBot = require("node-telegram-bot-api");
 const token = "7175534794:AAFk3QAafEENbT758I183IziKz6WNMTV3F4";
 const express = require("express");
-const webhookUrl = 'download-video-telegram-chat-bot.vercel.app';
-const setWebhookUrl = `https://api.telegram.org/bot${token}/setWebhook?url=${webhookUrl}/webhook`;
-
 
 const app = express();
 app.get("/", (req, res) => {
@@ -12,14 +9,6 @@ app.get("/", (req, res) => {
 });
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
-
-axios.post(setWebhookUrl)
-  .then(response => {
-    console.log('Webhook set successfully:', response.data);
-  })
-  .catch(error => {
-    console.error('Error setting webhook:', error);
-  });
 
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
