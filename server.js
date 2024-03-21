@@ -1,6 +1,8 @@
 const TelegramBot = require("node-telegram-bot-api");
 const token = "7175534794:AAFk3QAafEENbT758I183IziKz6WNMTV3F4";
 const express = require("express");
+const webhookUrl = 'download-video-telegram-chat-bot.vercel.app';
+
 
 const app = express();
 app.get("/", (req, res) => {
@@ -8,6 +10,13 @@ app.get("/", (req, res) => {
 });
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
+
+bot.setWebhook(webhookUrl).then(() => {
+    console.log('Webhook has been set successfully');
+}).catch((error) => {
+    console.error('Error setting webhook:', error);
+});
+
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
   bot.sendMessage(msg.chat.id, 'Đang tải...').then((sentMessage) => {
@@ -16,6 +25,7 @@ const downloading = (msg) => {
     }, 2000);
   });
 }
+
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const {
