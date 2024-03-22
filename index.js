@@ -34,7 +34,7 @@ app.get("/", async (req, res) => {
     type: null,
   };
   if (url.includes("facebook") || url.includes("instagram")) {
-    downloading(msg);
+    // downloading(msg);
     const res = await ndown(url);
     data = {
       ...data,
@@ -43,7 +43,7 @@ app.get("/", async (req, res) => {
       thumbnail: res.data[0].thumbnail,
     };
   } else if (url.includes("youtube")) {
-    downloading(msg);
+    // downloading(msg);
     const res = await ytdown(url);
     data = {
       ...data,
@@ -52,7 +52,7 @@ app.get("/", async (req, res) => {
       thumbnail: res.data.picture,
     };
   } else if (url.includes("tiktok")) {
-    downloading(msg);
+    // downloading(msg);
     const res = await tikdown(url);
     console.log(res);
     data = {
@@ -61,7 +61,7 @@ app.get("/", async (req, res) => {
       url: res.data.video,
     };
   } else if (url.includes("twitter")) {
-    downloading(msg);
+    // downloading(msg);
     const res = await twitterdown(url);
     data = {
       ...data,
