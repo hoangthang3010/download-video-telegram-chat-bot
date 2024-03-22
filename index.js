@@ -1,6 +1,5 @@
 const { igdl, ttdl, fbdown, twitter, youtube } = require('btch-downloader')
 
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -42,10 +41,10 @@ app.get("/download", async (req, res) => {
       url: res.HD || res['Normal_video'],
     };
   } else if (url.includes("instagram")) {
-    const res = await ytdown(url);
+    const res = await igdl(url);
     data = {
       ...data,
-      type: "ytb",
+      type: "ins",
       url: res[0].url,
       thumbnail: res[0].thumbnail,
     };
