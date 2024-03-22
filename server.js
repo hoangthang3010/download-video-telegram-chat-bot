@@ -4,6 +4,7 @@ const express = require("express");
 
 const app = express();
 app.get("/", (req, res) => {
+  console.log(req.params);
   res.send("Download video bot telegram by ThangHM");
 });
 // Create a bot that uses 'polling' to fetch new updates
