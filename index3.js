@@ -1,9 +1,6 @@
-const {
-  ndown,
-  tikdown,
-  ytdown,
-  twitterdown,
-} = require("nayan-media-downloader");
+
+const { igdl, ttdl, fbdown, twitter, youtube } = require('btch-downloader')
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -37,40 +34,44 @@ app.get("/download", async (req, res) => {
     thumbnail: null,
     type: null,
   };
-  if (url.includes("facebook") || url.includes("instagram")) {
-    // downloading(msg);
-    const res = await ndown(url);
-    data = {
-      ...data,
-      type: "fb",
-      url: res.data[0].url || data.data[1].url,
-      thumbnail: res.data[0].thumbnail,
-    };
-  } else if (url.includes("youtube")) {
-    // downloading(msg);
-    const res = await ytdown(url);
-    data = {
-      ...data,
-      type: "ytb",
-      url: res.data.video,
-      thumbnail: res.data.picture,
-    };
-  } else if (url.includes("tiktok")) {
-    // downloading(msg);
-    const res = await tikdown(url);
+  if (url.includes("facebook") || url.includes('fb')) {
+    const res = await fbdown(url);
     console.log(res);
     data = {
       ...data,
+      type: "fb",
+      url: res.HD || res['Normal_video'],
+    };
+  } else if (url.includes("instagram")) {
+    const res = await igdl(url);
+    data = {
+      ...data,
+      type: "ins",
+      url: res[0].url,
+      thumbnail: res[0].thumbnail,
+    };
+  } else if (url.includes("youtube")) {
+    const res = await youtube(url);
+    console.log(res);
+    data = {
+      ...data,
+      type: "ytb",
+      url: res.mp4,
+    };
+  } else if (url.includes("tiktok")) {
+    const res = await ttdl(url);
+    data = {
+      ...data,
       type: "tik",
-      url: res.data.video,
+      url: res.video[0],
+      thumbnail: res.thumbnail,
     };
   } else if (url.includes("twitter")) {
-    // downloading(msg);
-    const res = await twitterdown(url);
+    const res = await twitter(url);
     data = {
       ...data,
       type: "twi",
-      url: res.data.HD || res.data.SD,
+      url: res.url[0].hd || res.url[0].sd,
     };
   }
   res.send(data);
