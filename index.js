@@ -26,7 +26,11 @@ const server = app.listen(PORT, () => {
 });
 
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
+  res.send("Download video bot telegram by ThangHM");
+});
+
+app.get("/download", async (req, res) => {
   const url = req.query.url
   let data = {
     url: null,
