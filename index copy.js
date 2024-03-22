@@ -1,6 +1,9 @@
-const { igdl, ttdl, fbdown, twitter, youtube } = require('btch-downloader')
-
-
+const {
+  ndown,
+  tikdown,
+  ytdown,
+  twitterdown,
+} = require("nayan-media-downloader");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -34,43 +37,40 @@ app.get("/download", async (req, res) => {
     thumbnail: null,
     type: null,
   };
-  if (url.includes("facebook") || url.includes('fb')) {
-    const res = await fbdown(url);
+  if (url.includes("facebook") || url.includes("instagram")) {
+    // downloading(msg);
+    const res = await ndown(url);
     data = {
       ...data,
       type: "fb",
-      url: res.HD || res['Normal_video'],
+      url: res.data[0].url || data.data[1].url,
+      thumbnail: res.data[0].thumbnail,
     };
-  } else if (url.includes("instagram")) {
+  } else if (url.includes("youtube")) {
+    // downloading(msg);
     const res = await ytdown(url);
     data = {
       ...data,
       type: "ytb",
-      url: res[0].url,
-      thumbnail: res[0].thumbnail,
+      url: res.data.video,
+      thumbnail: res.data.picture,
     };
-  } else if (url.includes("youtube")) {
-    const res = await youtube(url);
+  } else if (url.includes("tiktok")) {
+    // downloading(msg);
+    const res = await tikdown(url);
     console.log(res);
     data = {
       ...data,
-      type: "ytb",
-      url: res.mp4,
-    };
-  } else if (url.includes("tiktok")) {
-    const res = await ttdl(url);
-    data = {
-      ...data,
       type: "tik",
-      url: res.video[0],
-      thumbnail: res.thumbnail,
+      url: res.data.video,
     };
   } else if (url.includes("twitter")) {
-    const res = await twitter(url);
+    // downloading(msg);
+    const res = await twitterdown(url);
     data = {
       ...data,
       type: "twi",
-      url: res.url[0].hd || res.url[0].sd,
+      url: res.data.HD || res.data.SD,
     };
   }
   res.send(data);
