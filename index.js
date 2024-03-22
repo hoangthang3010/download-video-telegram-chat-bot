@@ -1,3 +1,9 @@
+const {
+  ndown,
+  tikdown,
+  ytdown,
+  twitterdown,
+} = require("nayan-media-downloader");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -22,12 +28,6 @@ const server = app.listen(PORT, () => {
 
 app.get("/", async (req, res) => {
   const url = req.query.url
-  const {
-    ndown,
-    tikdown,
-    ytdown,
-    twitterdown,
-  } = require("nayan-media-downloader");
   let data = {
     url: null,
     thumbnail: null,
