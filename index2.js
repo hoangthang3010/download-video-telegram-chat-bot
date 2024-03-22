@@ -1,5 +1,12 @@
-
-const { igdl, ttdl, fbdown, twitter, youtube } = require('btch-downloader')
+const {
+  VKontakte,
+  Instagram,
+  Facebook,
+  Snapchat,
+  Twitter,
+  YouTube,
+  TikTok
+} = require('social-downloader-cherry');
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -58,7 +65,8 @@ app.get("/download", async (req, res) => {
       url: res.mp4,
     };
   } else if (url.includes("tiktok")) {
-    const res = await ttdl(url);
+    const res = await TikTok.getVideo(url);
+    console.log(res.data);
     data = {
       ...data,
       type: "tik",
