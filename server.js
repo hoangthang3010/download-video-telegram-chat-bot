@@ -62,11 +62,10 @@ const handleDownload = async (msg, isDownload) => {
       break;
     default:
       bot.deleteMessage(msg.chat.id, msg.message_id);
-      bot.sendMessage(
+      return bot.sendMessage(
         chatId,
         "URL của bạn " + urlVideo + " không được hỗ trợ "
       );
-      break;
   }
 
   data = {
