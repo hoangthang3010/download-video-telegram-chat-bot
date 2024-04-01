@@ -40,7 +40,7 @@ const handleDownload = async (msg, isDownload) => {
     res;
 
   switch (true) {
-    case urlVideo.includes("facebook") || urlVideo.includes("instagram"):
+    case urlVideo.includes("facebook") || urlVideo.includes("fb") || urlVideo.includes("instagram"):
       downloading(msg);
       res = await ndown(urlVideo);
       data.type = "fb";
