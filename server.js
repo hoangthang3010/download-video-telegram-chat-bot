@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot('7004121445:AAHRhIPKez8u3LYd0pxoH3PygabvtkGXi60' || process.env.TOKEN_TELEGRAM, { polling: true });
+const bot = new TelegramBot(process.env.TOKEN_TELEGRAM, { polling: true });
 let idMsgIsDownload;
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
