@@ -6,6 +6,7 @@ const {
   twitterdown,
 } = require("nayan-media-downloader");
 const express = require("express");
+const axios = require("axios");
 
 const app = express();
 app.get("/", (req, res) => {
@@ -15,7 +16,6 @@ app.get("/", (req, res) => {
 
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(process.env.TOKEN_TELEGRAM, { polling: true });
-
 let idMsgIsDownload;
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -24,6 +24,35 @@ const downloading = (msg) => {
     .then((sentMessage) => {
       idMsgIsDownload = sentMessage.message_id;
     });
+};
+
+const convertVideo = async (apiUrl, link) => {
+  let res;
+  await axios
+    .post(apiUrl, { vid: link })
+    .then((response) => {
+      res = response.data;
+    })
+    .catch((error) => {
+      console.error("Lỗi khi gọi API:", error);
+    });
+  return res;
+};
+
+const errorConvert = () => {
+  const markdownText = `Lỗi hệ thống => Ấn "Tải lại ngay" để tải lại\nOrigin URL: ${urlVideo}`;
+  bot.sendMessage(chatId, markdownText, {
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "Tải lại ngay",
+            callback_data: "redownload",
+          },
+        ],
+      ],
+    },
+  });
 };
 
 const handleDownload = async (msg, isDownload) => {
@@ -40,7 +69,9 @@ const handleDownload = async (msg, isDownload) => {
     res;
 
   switch (true) {
-    case urlVideo.includes("facebook") || urlVideo.includes("fb") || urlVideo.includes("instagram"):
+    case urlVideo.includes("facebook") ||
+      urlVideo.includes("fb") ||
+      urlVideo.includes("instagram"):
       downloading(msg);
       res = await ndown(urlVideo);
       data.type = "fb";
@@ -84,8 +115,10 @@ const handleDownload = async (msg, isDownload) => {
   if (data.url) {
     const reply_markup = {
       inline_keyboard: [
-        [{ text: "Download URL", url: data.url }],
-        [{ text: "Ấn để ủng hộ tác giả", url: "https://shope.ee/4Kw55CMmeL" }],
+        [
+          { text: "Download URL", url: data.url },
+          { text: "Ấn để ủng hộ tác giả", url: "https://shope.ee/4Kw55CMmeL" },
+        ],
       ],
     };
     const contentSend = {
@@ -93,29 +126,31 @@ const handleDownload = async (msg, isDownload) => {
       reply_markup,
     };
 
-    bot
-      .sendVideo(chatId, data.url, { ...contentSend })
-      .then((sent) => {
-        console.log("Video sent:", sent);
-      })
-      .catch((error) => {
-        bot.sendPhoto(chatId, data.thumbnail, { ...contentSend });
-      });
-  } else {
-    const markdownText = `Lỗi hệ thống => Ấn "Tải lại ngay" để tải lại\nOrigin URL: ${urlVideo}`;
+    const sendIntinial = () => {
+      bot
+        .sendVideo(chatId, data.url, { ...contentSend })
+        .then((sent) => {
+          console.log("Video sent:", sent);
+        })
+        .catch((error) => {
+          errorConvert();
+          // bot.sendPhoto(chatId, data.thumbnail, { ...contentSend });
+        });
+    };
 
-    bot.sendMessage(chatId, markdownText, {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "Tải lại ngay",
-              callback_data: "redownload",
-            },
-          ],
-        ],
-      },
-    });
+    if (msg.from.username == "ncnhoanluong") {
+      const urlRq = "http://localhost:3002" + "/v1/render-video";
+      const vidForMe = await convertVideo(urlRq, data.url);
+      if (vidForMe.url) {
+        reply_markup.inline_keyboard[0] = [
+          ...reply_markup.inline_keyboard[0],
+          { text: "Khoan High", url: vidForMe.url },
+        ];
+      }
+    }
+    sendIntinial();
+  } else {
+    errorConvert();
   }
 };
 
