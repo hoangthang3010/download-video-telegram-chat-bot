@@ -166,7 +166,7 @@ bot.on("callback_query", async (callbackQuery) => {
   }
 });
 
-const PORT = 3002;
+const PORT = 3010;
 
 const server = app.listen(PORT, () => {
   console.log(`Server started on port localhost:${PORT}`);
