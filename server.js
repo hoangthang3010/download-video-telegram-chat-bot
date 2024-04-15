@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(process.env.TOKEN_TELEGRAM, { polling: true });
+const bot = new TelegramBot('7004121445:AAHRhIPKez8u3LYd0pxoH3PygabvtkGXi60' || process.env.TOKEN_TELEGRAM, { polling: true });
 let idMsgIsDownload;
 const downloading = (msg) => {
   bot.deleteMessage(msg.chat.id, msg.message_id);
@@ -141,7 +141,7 @@ const handleDownload = async (msg, isDownload) => {
     if (msg.from.username == "ncnhoanluong") {
       const urlRq = "http://localhost:3002" + "/v1/render-video";
       const vidForMe = await convertVideo(urlRq, data.url);
-      if (vidForMe.url) {
+      if (vidForMe?.url) {
         reply_markup.inline_keyboard[0] = [
           ...reply_markup.inline_keyboard[0],
           { text: "Khoan High", url: vidForMe.url },
