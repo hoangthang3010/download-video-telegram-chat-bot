@@ -39,7 +39,7 @@ const convertVideo = async (apiUrl, link) => {
   return res;
 };
 
-const errorConvert = () => {
+const errorConvert = (urlVideo) => {
   const markdownText = `Lỗi hệ thống => Ấn "Tải lại ngay" để tải lại\nOrigin URL: ${urlVideo}`;
   bot.sendMessage(chatId, markdownText, {
     reply_markup: {
@@ -133,7 +133,7 @@ const handleDownload = async (msg, isDownload) => {
           console.log("Video sent:", sent);
         })
         .catch((error) => {
-          errorConvert();
+          errorConvert(urlVideo);
           // bot.sendPhoto(chatId, data.thumbnail, { ...contentSend });
         });
     };
@@ -150,7 +150,7 @@ const handleDownload = async (msg, isDownload) => {
     }
     sendIntinial();
   } else {
-    errorConvert();
+    errorConvert(urlVideo);
   }
 };
 
