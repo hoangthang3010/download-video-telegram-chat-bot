@@ -138,16 +138,16 @@ const handleDownload = async (msg, isDownload) => {
         });
     };
 
-    if (msg.from.username == "ncnhoanluong") {
-      const urlRq = "http://localhost:3002" + "/v1/render-video";
-      const vidForMe = await convertVideo(urlRq, data.url);
-      if (vidForMe?.url) {
-        reply_markup.inline_keyboard[0] = [
-          ...reply_markup.inline_keyboard[0],
-          { text: "Khoan High", url: vidForMe.url },
-        ];
-      }
-    }
+    // if (msg.from.username == "ncnhoanluong") {
+    //   const urlRq = "http://localhost:3002" + "/v1/render-video";
+    //   const vidForMe = await convertVideo(urlRq, data.url);
+    //   if (vidForMe?.url) {
+    //     reply_markup.inline_keyboard[0] = [
+    //       ...reply_markup.inline_keyboard[0],
+    //       { text: "Khoan High", url: vidForMe.url },
+    //     ];
+    //   }
+    // }
     sendIntinial();
   } else {
     errorConvert(chatId, urlVideo);
