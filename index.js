@@ -30,11 +30,12 @@ app.get("/", (req, res) => {
 
 app.get("/download", async (req, res) => {
   const url = req.query.url;
-  const msg_id = req.query.id;
   let data = {
+    url_source: url,
     url: null,
     thumbnail: null,
     type: null,
+    msg_id: req.query.id
   };
   if (url.includes("facebook") || url.includes("instagram")) {
     // downloading(msg);
@@ -69,8 +70,7 @@ app.get("/download", async (req, res) => {
     data = {
       ...data,
       type: "twi",
-      url: res.data.HD || res.data.SD,
-      id_msg,
+      url: res.data.HD || res.data.SD
     };
   }
   res.send(data);
