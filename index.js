@@ -18,20 +18,19 @@ app.use(
   })
 );
 
-
 const PORT = 3002;
 
 const server = app.listen(PORT, () => {
   console.log(`Server started on port localhost:${PORT}`);
 });
 
-
 app.get("/", (req, res) => {
   res.send("Download video bot telegram by ThangHM");
 });
 
 app.get("/download", async (req, res) => {
-  const url = req.query.url
+  const url = req.query.url;
+  const msg_id = req.query.id;
   let data = {
     url: null,
     thumbnail: null,
@@ -71,6 +70,7 @@ app.get("/download", async (req, res) => {
       ...data,
       type: "twi",
       url: res.data.HD || res.data.SD,
+      id_msg,
     };
   }
   res.send(data);
