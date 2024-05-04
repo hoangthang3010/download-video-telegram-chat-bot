@@ -171,33 +171,3 @@ const PORT = 3010;
 const server = app.listen(PORT, () => {
   console.log(`Server started on port localhost:${PORT}`);
 });
-
-// const opts = {
-//   reply_markup: {
-//     inline_keyboard: [
-//       [{ text: "Download URL", url: data.url }],
-//       [{ text: "Origin URL", url: msg.text }],
-//     ],
-//   },
-// };
-// bot.sendMessage(chatId, "", {
-//   reply_markup: {
-//     inline_keyboard: [
-//       [{ text: "Download URL", url: data.url }],
-//       [{ text: "Origin URL", url: msg.text }],
-//     ],
-//   },
-// });
-// bot.sendMessage(chatId, video, { parse_mode: "Markdown" });
-// Matches "/echo [whatever]"
-// bot.onText(/\/echo (.+)/, (msg, match) => {
-//   // 'msg' is the received Message from Telegram
-//   // 'match' is the result of executing the regexp above on the text content
-//   // of the message
-
-//   const chatId = msg.chat.id;
-//   const resp = match[1]; // the captured "whatever"
-
-//   // send back the matched "whatever" to the chat
-//   bot.sendMessage(chatId, resp);
-// });
