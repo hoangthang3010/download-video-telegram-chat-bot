@@ -41,22 +41,18 @@ app.get("/download", async (req, res) => {
     case urlVideo.includes("facebook") ||
       urlVideo.includes("fb") ||
       urlVideo.includes("instagram"):
-      downloading(msg);
       response = await ndown(urlVideo);
       data.type = "fb";
       break;
     case urlVideo.includes("youtube"):
-      downloading(msg);
       response = await ytdown(urlVideo);
       data.type = "ytb";
       break;
     case urlVideo.includes("tiktok"):
-      downloading(msg);
       response = await tikdown(urlVideo);
       data.type = "tik";
       break;
     case urlVideo.includes("twitter"):
-      downloading(msg);
       response = await twitterdown(urlVideo);
       data.type = "twi";
       break;
