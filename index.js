@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/download", async (req, res) => {
-  const url = req.query.url;
+  const urlVideo = req.query.url;
   let data = {
       url: null,
       thumbnail: null,
