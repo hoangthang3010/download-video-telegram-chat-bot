@@ -43,8 +43,8 @@ app.get("/download", async (req, res) => {
     data = {
       ...data,
       type: "fb",
-      url: res.data[0].url || data.data[1].url,
-      thumbnail: res.data[0].thumbnail,
+      url: res?.data?.[0]?.url || data?.data?.[1].url,
+      thumbnail: res?.data?.[0]?.thumbnail,
     };
   } else if (url.includes("youtube")) {
     // downloading(msg);
@@ -52,8 +52,8 @@ app.get("/download", async (req, res) => {
     data = {
       ...data,
       type: "ytb",
-      url: res.data.video,
-      thumbnail: res.data.picture,
+      url: res?.data?.video,
+      thumbnail: res?.data?.picture,
     };
   } else if (url.includes("tiktok")) {
     // downloading(msg);
@@ -62,7 +62,7 @@ app.get("/download", async (req, res) => {
     data = {
       ...data,
       type: "tik",
-      url: res.data.video,
+      url: res?.data?.video,
     };
   } else if (url.includes("twitter")) {
     // downloading(msg);
@@ -70,7 +70,7 @@ app.get("/download", async (req, res) => {
     data = {
       ...data,
       type: "twi",
-      url: res.data.HD || res.data.SD
+      url: res?.data?.HD || res.data?.SD
     };
   }
   res.send(data);
