@@ -61,11 +61,7 @@ app.get("/download", async (req, res) => {
       data.type = "twi";
       break;
     default:
-      bot.deleteMessage(msg.chat.id, msg.message_id);
-      return bot.sendMessage(
-        chatId,
-        "URL của bạn " + urlVideo + " không được hỗ trợ "
-      );
+      break;
   }
 
   data = {
@@ -76,8 +72,7 @@ app.get("/download", async (req, res) => {
       response?.data?.video ||
       response?.data?.HD ||
       response?.data?.SD ||
-      response?.data?.picture ||
-      url,
+      response?.data?.picture,
     thumbnail: response?.data?.[0]?.thumbnail,
   };
   res.send(data);
